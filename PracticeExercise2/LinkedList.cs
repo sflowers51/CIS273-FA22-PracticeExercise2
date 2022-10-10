@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace PracticeExercise2
 {
 
@@ -37,7 +39,9 @@ namespace PracticeExercise2
 
         public bool IsEmpty => throw new NotImplementedException();
 
-        public int Length => throw new NotImplementedException();
+        // Length is not accesible so you have to use length
+        private int length = 0;
+        public int Length => length;
 
         public void Append(T value)
         {
@@ -55,12 +59,16 @@ namespace PracticeExercise2
                 Tail = newNode;
             }
 
+            length++;
 
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            Head = null;
+            Tail = null;
+
+            length = 0;
         }
 
         public bool Contains(T value)
@@ -95,32 +103,110 @@ namespace PracticeExercise2
 
         public void InsertAfter(T newValue, int existingValue)
         {
+            length++;
             throw new NotImplementedException();
         }
 
         public void InsertAt(T value, int index)
         {
+            length++;
             throw new NotImplementedException();
         }
 
         public void Prepend(T value)
         {
+            length++;
             throw new NotImplementedException();
         }
 
         public void Remove(T value)
         {
-            throw new NotImplementedException();
+            //If list is empty, we're done, son.
+
+            if(IsEmpty)
+            {
+                return;
+            }
+
+            //Remove head
+
+            if (Head.Data.Equals(value))
+            {              
+                
+                //1-element list
+                if(Head == Tail)
+                {
+                    Tail = null;
+                    //Head = null;
+                }
+
+                else
+                {
+                    Head = Head.Next;
+                }
+                length--;
+                return;
+            }
+
+            // Remove non-head node
+
+            var currentNode = Head;
+
+            while (currentNode != null)
+            {
+                // if you already find the node htat needs to be removed, you cannot change the one before 
+                //you cannot go backwards
+                if(currentNode.Next != null && currentNode.Next.Data.Equals(value))
+                {
+                    var nodeToDelete = currentNode.Next;
+                    
+                    if(nodeToDelete == Tail)
+                    {
+                        currentNode.Next = null;
+                        Tail = currentNode;
+                    }
+
+                    else
+                    {
+                        currentNode.Next = currentNode.Next.Next;
+
+                        nodeToDelete.Next = null;
+
+                    }
+                    
+                    return; 
+                }
+
+                currentNode = currentNode.Next;
+            }
         }
 
         public void RemoveAt(int index)
         {
+            length--;
             throw new NotImplementedException();
         }
 
         public IList<T> Reverse()
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToString()
+        {
+            string result = "[";
+
+            for (var currentNode = Head; currentNode != null; currentNode = currentNode.Next)
+            {
+                result += currentNode.ToString();
+                if( currentNode != Tail)
+                {
+                    result += ",";
+                }
+            }
+            result += "]";
+
+            return result;
         }
     }
 }
