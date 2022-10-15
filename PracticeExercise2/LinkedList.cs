@@ -361,22 +361,21 @@ namespace PracticeExercise2
 
         public IList<T> Reverse()
         {
+            var reversedList = new LinkedList<T>();
+
             int index = 0;
             var currentNode = Head;
             int currentIndex = 0;
 
-            while (index != length + 1)
+            while (index != length  )
             {
-                if (currentIndex == index)
-                {
-                    Prepend(currentNode.Data);
-                }
+                reversedList.Prepend(currentNode.Data);
                 index++;
                 currentNode = currentNode.Next;
                 currentIndex++;
             }
 
-            return;
+            return reversedList;
         }
 
         public override string ToString()
