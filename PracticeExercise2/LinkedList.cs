@@ -303,6 +303,12 @@ namespace PracticeExercise2
 
         public void RemoveAt(int index)
         {
+            if (index < 0 || index >= length)
+            {
+                throw new IndexOutOfRangeException();
+                return;
+            }
+
             if (IsEmpty)
             {
                 return;
@@ -326,17 +332,21 @@ namespace PracticeExercise2
                 return;
             }
 
+
+
             // Remove non-head node
 
-            var currentNode = Head;
+            var currentNode = Head; 
+            
+            int currentIndex = 0;
 
             while (currentNode != null)
             {
-                // if you already find the node htat needs to be removed, you cannot change the one before 
-                //you cannot go backwards
-                if (currentNode != null && currentNode.Data.Equals(index))
+
+
+                if ((currentIndex + 1).Equals(index) && currentNode.Next != null)
                 {
-                    var nodeToDelete = currentNode;
+                    var nodeToDelete = currentNode.Next;
 
                     if (nodeToDelete == Tail)
                     {
@@ -346,7 +356,7 @@ namespace PracticeExercise2
 
                     else
                     {
-                        currentNode.Next = nodeToDelete.Next;
+                        currentNode.Next = currentNode.Next.Next;
 
                         nodeToDelete.Next = null;
 
@@ -354,8 +364,8 @@ namespace PracticeExercise2
 
                     return;
                 }
-
                 currentNode = currentNode.Next;
+                currentIndex++;
             }
         }
 
@@ -365,14 +375,13 @@ namespace PracticeExercise2
 
             int index = 0;
             var currentNode = Head;
-            int currentIndex = 0;
 
             while (index != length  )
             {
                 reversedList.Prepend(currentNode.Data);
                 index++;
                 currentNode = currentNode.Next;
-                currentIndex++;
+                
             }
 
             return reversedList;
