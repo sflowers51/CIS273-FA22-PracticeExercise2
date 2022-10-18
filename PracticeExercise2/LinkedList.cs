@@ -1,6 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Security;
+using System.Transactions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace PracticeExercise2
 {
@@ -142,38 +145,53 @@ namespace PracticeExercise2
             return default(T);
         }
 
+        
         public void InsertAfter(T newValue, int existingValue)
         {
-
-            // traverse
-            
             var currentNode = Head;
+            var newNode = new LinkedListNode<T>(newValue);
 
             while (currentNode != null)
             {
-                
+                if (currentNode == null)
+                {
+                    InsertAt(newValue, existingValue);
+
+                    if(currentNode == Tail)
+                    {
+                        Tail = newNode;
+                    }
+                    length++;
+                    return;
+                }
+
                 if (currentNode.Data.Equals(existingValue))
                 {
-                    //insert new node
-
-                    var newNode = new LinkedListNode<T>(newValue);
+                    
 
                     newNode.Next = currentNode.Next;
                     currentNode.Next = newNode;
-                    
 
                     if (currentNode == Tail)
                     {
-                        Tail = currentNode.Next;
+                        Tail = newNode;
+
                     }
 
-                    length++;
-                    
-                }
 
-                currentNode = currentNode.Next;                
-          }
+                    length++;
+                    return;
+                }
+                currentNode = currentNode.Next;
+            }
+
+            if (currentNode == null)
+            {
+                Append(newValue);
+                return;
+            }
         }
+        
 
         public void InsertAt(T value, int index)
         {
@@ -291,7 +309,6 @@ namespace PracticeExercise2
                         currentNode.Next = currentNode.Next.Next;
 
                         nodeToDelete.Next = null;
-
                     }
                     
                     return; 
