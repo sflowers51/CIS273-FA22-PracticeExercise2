@@ -153,17 +153,7 @@ namespace PracticeExercise2
 
             while (currentNode != null)
             {
-                if (currentNode == null)
-                {
-                    InsertAt(newValue, existingValue);
 
-                    if(currentNode == Tail)
-                    {
-                        Tail = newNode;
-                    }
-                    length++;
-                    return;
-                }
 
                 if (currentNode.Data.Equals(existingValue))
                 {
